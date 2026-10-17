@@ -2,6 +2,7 @@
 import os
 import re
 import shutil
+import sys
 from urllib.parse import urljoin
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -81,5 +82,24 @@ def build():
         open(f"{root}/robots.txt", "w").write("User-agent: *\nAllow: /\n")
 
 
+LIVE_PREFIX = "/nhs-scraper-fixture/live"
+
+
+def build_live(version):
+    """Copy local/<version> into live/, served by GitHub Pages under the repo prefix."""
+    live = f"{HERE}/live"
+    shutil.rmtree(live, ignore_errors=True)
+    shutil.copytree(f"{OUT}/{version}", live)
+    for dirpath, _, names in os.walk(live):
+        for name in names:
+            if name.endswith(".html"):
+                path = os.path.join(dirpath, name)
+                html = open(path).read()
+                html = re.sub(r'href="(/[^/][^"]*)"', rf'href="{LIVE_PREFIX}\1"', html)
+                open(path, "w").write(html)
+
+
 if __name__ == "__main__":
     build()
+    if len(sys.argv) == 3 and sys.argv[1] == "live":
+        build_live(sys.argv[2])
