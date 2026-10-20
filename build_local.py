@@ -90,6 +90,8 @@ def build_live(version):
     live = f"{HERE}/live"
     shutil.rmtree(live, ignore_errors=True)
     shutil.copytree(f"{OUT}/{version}", live)
+    with open(f"{live}/index.html", "w") as f:
+        f.write('<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=medicines/"><a href="medicines/">medicines</a>\n')
     for dirpath, _, names in os.walk(live):
         for name in names:
             if name.endswith(".html"):

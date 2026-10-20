@@ -111,7 +111,7 @@ def build():
         page(
             "NHS medicines fixture",
             '<main class="nhsuk-main-wrapper"><h1>NHS medicines fixture</h1><ul>'
-            '<li><a href="v1/medicines/">v1</a></li><li><a href="v2/medicines/">v2</a></li></ul></main>',
+            '<li><a href="v1/medicines/">v1</a></li><li><a href="v2/medicines/">v2</a></li><li><a href="live/medicines/">live</a></li></ul></main>',
             -2,
         ),
     )
